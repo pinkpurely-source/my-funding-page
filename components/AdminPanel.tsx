@@ -4,7 +4,9 @@ import { Gift, formatCurrency } from '@/types';
 import { Plus, DollarSign, Trash2, Link as LinkIcon, Image as ImageIcon, History, ChevronDown } from 'lucide-react';
 
 interface AdminPanelProps {
-  gifts?: Gift[]; // ?를 붙여 데이터가 없을 때도 대비합니다.
+  gifts?: Gift[];
+  isOpen: boolean;      // 부모로부터 받는 상태
+  onClose: () => void;  // 부모로부터 받는 닫기 함수
   onAddGift: (gift: Omit<Gift, 'id' | 'contributions'>) => void;
   onAddFunding: (giftId: string, amount: number, name: string) => void;
   onDeleteContributions: (giftId: string, contributionIds: string[]) => void;
@@ -12,8 +14,17 @@ interface AdminPanelProps {
   activeGift?: Gift;
 }
 
-export const AdminPanel: React.FC<AdminPanelProps> = ({ gifts = [], onAddGift, onAddFunding, onDeleteContributions, onReset, activeGift }) => {
-  const [isOpen, setIsOpen] = useState(false);
+// 1. 여기서 { isOpen, onClose }를 반드시 추가해야 합니다!
+export const AdminPanel: React.FC<AdminPanelProps> = ({ 
+  gifts = [], 
+  isOpen, 
+  onClose, 
+  onAddGift, 
+  onAddFunding, 
+  onDeleteContributions, 
+  onReset, 
+  activeGift 
+}) => {
   
   const [selectedGiftId, setSelectedGiftId] = useState<string>('');
   const [brand, setBrand] = useState('');
@@ -25,16 +36,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ gifts = [], onAddGift, o
   const [donorName, setDonorName] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  // 안전하게 데이터 확인 후 초기값 설정
   useEffect(() => {
     if (activeGift) {
       setSelectedGiftId(activeGift.id);
     } else if (gifts && gifts.length > 0 && !selectedGiftId) {
       setSelectedGiftId(gifts[0].id);
     }
+    // 이제 입구에서 isOpen을 받아왔으므로 여기서 빨간 줄이 사라집니다.
   }, [activeGift, gifts, isOpen, selectedGiftId]);
 
-  // 방어 코드 추가: gifts가 없으면 빈 배열로 취급
   const currentGift = (gifts && gifts.find(g => g.id === selectedGiftId)) || (gifts && gifts[0]);
 
   const handleAddGift = (e: React.FormEvent) => {
@@ -59,36 +69,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ gifts = [], onAddGift, o
     setFundingAmount(''); setDonorName('');
   };
 
-  const toggleSelection = (id: string) => {
-    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
-  };
-
-  const handleBulkDelete = () => {
-    if (!currentGift) return;
-    if (confirm(`${selectedIds.length}개의 항목을 삭제하시겠습니까?`)) {
-        onDeleteContributions(currentGift.id, selectedIds);
-        setSelectedIds([]);
-    }
-  };
-
-  if (!isOpen) {
-    return (
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-2 rounded-full shadow-lg text-xs hover:bg-gray-800 transition-colors opacity-50 hover:opacity-100 z-50"
-      >
-        관리자 모드
-      </button>
-    );
-  }
+  // 2. 이 부분의 버튼을 '비밀번호 확인용 버튼'으로 바꾸고 싶다면 page.tsx에서 처리하는 것이 좋습니다.
+  // 여기서는 단순히 isOpen이 false일 때 아무것도 렌더링하지 않도록 수정합니다.
+  if (!isOpen) return null;
 
   return (
     <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] p-6 z-50 max-h-[85vh] overflow-y-auto text-black">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">관리자 패널</h2>
         <div className="flex gap-2">
-            <button onClick={onReset} className="text-red-500 text-sm hover:underline px-2">전체 초기화</button>
-            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-black">닫기</button>
+          <button onClick={onReset} className="text-red-500 text-sm hover:underline px-2">전체 초기화</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-black font-bold">닫기</button>
         </div>
       </div>
 

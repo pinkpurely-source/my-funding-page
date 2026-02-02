@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# 보안을 위해 환경 변수 파일 숨기기
+.env
+.env.local
+.env.production

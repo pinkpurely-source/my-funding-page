@@ -13,9 +13,25 @@ const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
+// === 비밀번호 확인 함수 추가 ===
+
 export default function Home() {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  const handleAdminToggle = () => {
+    if (isAdminOpen) {
+      setIsAdminOpen(false); // 이미 열려있으면 닫기
+    } else {
+      const password = prompt("관리자 비밀번호를 입력하세요:");
+      if (password === "7079") { // "1234" 대신 원하는 비밀번호를 넣으세요!
+        setIsAdminOpen(true);
+      } else {
+        alert("비밀번호가 틀렸습니다.");
+      }
+    }
+  };
 
   // 1. 페이지 접속 시 DB에서 데이터 불러오기
   useEffect(() => {
@@ -157,14 +173,26 @@ export default function Home() {
         <div className="text-center text-gray-400">등록된 선물이 없습니다. 관리자 모드에서 추가해 주세요.</div>
       )}
 
+      {/* === 3. AdminPanel 연결 수정 === */}
+      {/* isAdminOpen이 true일 때만 AdminPanel이 보이도록 하고, 
+          버튼 클릭 시 handleAdminToggle이 실행되게 합니다. */}
       <AdminPanel 
-        gifts={gifts}
-        onAddGift={addGift}
-        onAddFunding={addFunding}
-        onDeleteContributions={deleteContributions}
-        onReset={resetAll}
-        activeGift={gifts[0]}
+        isOpen={isAdminOpen}      // 부모의 상태 전달
+  onClose={() => setIsAdminOpen(false)} // 닫기 버튼 누르면 그냥 닫기
+  gifts={gifts}
+  onAddGift={addGift}
+  onAddFunding={addFunding}
+  onDeleteContributions={deleteContributions}
+  onReset={resetAll}
+  activeGift={gifts[0]}
       />
+      {/* 관리자 모드를 여는 '자물쇠' 버튼 (보통 플로팅 버튼으로 만듭니다) */}
+<button 
+  onClick={handleAdminToggle}
+  className="fixed bottom-4 right-4 p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all"
+>
+  ⚙️
+</button>
     </div>
   );
 }
