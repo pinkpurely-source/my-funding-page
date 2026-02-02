@@ -1,0 +1,23 @@
+{
+  "devFiles": [],
+  "ampDevFiles": [],
+  "polyfillFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "pages": {
+    "/_app": [
+      "static/chunks/9ac08_next_dist_compiled_41e652e5._.js",
+      "static/chunks/9ac08_next_dist_shared_lib_35ac907e._.js",
+      "static/chunks/9ac08_next_dist_client_6710fd48._.js",
+      "static/chunks/9ac08_next_dist_6adf5837._.js",
+      "static/chunks/9ac08_next_app_bb9686fb.js",
+      "static/chunks/[next]_entry_page-loader_ts_7a14a653._.js",
+      "static/chunks/9ac08_react-dom_646b8501._.js",
+      "static/chunks/9ac08_d0b716a6._.js",
+      "static/chunks/[root-of-the-server]__340a5dc9._.js",
+      "static/chunks/my-funding-page_pages__app_2da965e7._.js",
+      "static/chunks/turbopack-my-funding-page_pages__app_e96e82c7._.js"
+    ]
+  },
+  "ampFirstPages": []
+}
