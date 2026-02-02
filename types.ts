@@ -10,8 +10,8 @@ export interface Gift {
   brand: string;
   name: string;
   price: number;
-  imageUrl: string;
-  productUrl: string;
+  image_Url: string;
+  product_Url: string;
   contributions: Contribution[];
 }
 
