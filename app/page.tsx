@@ -105,7 +105,7 @@ export default function Home() {
   className="object-cover w-full h-full"
   onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400?text=No+Image'; }}
 />
-            <a href={currentGift.product_Url} target="_blank" className="absolute bottom-4 left-4 text-xs text-gray-400 flex items-center gap-1 hover:text-black transition-colors">
+            <a href={currentGift.product_url} target="_blank" className="absolute bottom-4 left-4 text-xs text-gray-400 flex items-center gap-1 hover:text-black transition-colors">
               <ExternalLink size={12} /> 제품 보러가기
             </a>
           </div>

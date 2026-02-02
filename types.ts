@@ -10,8 +10,8 @@ export interface Gift {
   brand: string;
   name: string;
   price: number;
-  image_Url: string;
-  product_Url: string;
+  image_url: string;    // 'u'가 소문자인지 꼭 확인하세요!
+  product_url: string;
   contributions: Contribution[];
 }
 
