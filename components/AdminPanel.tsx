@@ -44,8 +44,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ gifts = [], onAddGift, o
       brand,
       name,
       price: parseInt(price.replace(/[^0-9]/g, '')),
-      imageUrl,
-      productUrl
+      image_url: imageUrl,
+      product_url: productUrl
     });
     setBrand(''); setName(''); setPrice(''); setImageUrl(''); setProductUrl('');
   };

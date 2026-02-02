@@ -45,21 +45,14 @@ export default function Home() {
   const addGift = async (newGift: Omit<Gift, 'id' | 'contributions'>) => {
     const { data, error } = await supabase
       .from('gifts')
-          .insert([{
-      brand: newGift.brand,
-      name: newGift.name,
-      price: newGift.price,
-      image_url: newGift.imageUrl,    // imageUrl을 image_url로 매칭
-      product_url: newGift.productUrl // productUrl을 product_url로 매칭
-    }])
+          .insert([newGift])
       .select();
 
-   if (error) {
-    // 에러의 세부 내용을 구체적으로 출력합니다.
-    console.error('에러 메시지:', error.message);
-    console.error('에러 상세:', error.details);
-    console.error('에러 힌트:', error.hint);
-    alert(`등록 실패: ${error.message}`);
+    if (error) {
+    console.error('Error:', error.message);
+    alert('선물 등록 실패!');
+  } else {
+    fetchGifts();
   }
   };
 
@@ -112,7 +105,7 @@ export default function Home() {
   className="object-cover w-full h-full"
   onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400?text=No+Image'; }}
 />
-            <a href={currentGift.productUrl} target="_blank" className="absolute bottom-4 left-4 text-xs text-gray-400 flex items-center gap-1 hover:text-black transition-colors">
+            <a href={currentGift.product_Url} target="_blank" className="absolute bottom-4 left-4 text-xs text-gray-400 flex items-center gap-1 hover:text-black transition-colors">
               <ExternalLink size={12} /> 제품 보러가기
             </a>
           </div>
