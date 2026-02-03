@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: "마음을 보내주세요!",
     images: [
       {
-        url: "https://my-funding-final.vercel.app/og-image.png", // public 폴더에 넣은 이미지 경로
+        url: "https://my-funding-page.vercel.app/og-image.png", // public 폴더에 넣은 이미지 경로
         width: 1200,
         height: 630,
       },
